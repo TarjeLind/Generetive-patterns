@@ -1,8 +1,5 @@
 package ru.netology;
 
-import java.util.NoSuchElementException;
-import java.util.OptionalInt;
-
 public class Person {
     private final String name;
     private final String lastname;
@@ -42,13 +39,11 @@ public class Person {
         return lastname;
     }
 
-    public OptionalInt getAge() {
-        try {
-            return OptionalInt.of(age);
-        } catch (NoSuchElementException e) {
-            System.out.println("Введен недопустимый возраст");
-            return OptionalInt.empty();
+    public int getAge() {
+        if (hasAge()) {
+            return age;
         }
+        return 0;
     }
 
     public String getCity() {
