@@ -1,5 +1,7 @@
 package ru.netology;
 
+import java.util.OptionalInt;
+
 public class Person {
     private final String name;
     private final String lastname;
@@ -39,11 +41,8 @@ public class Person {
         return lastname;
     }
 
-    public int getAge() {
-        if (hasAge()) {
-            return age;
-        }
-        return 0;
+    public OptionalInt getAge() {
+        return OptionalInt.of(age);
     }
 
     public String getCity() {
