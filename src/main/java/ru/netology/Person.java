@@ -1,27 +1,40 @@
 package ru.netology;
 
 import java.util.Objects;
+import java.util.OptionalInt;
 
 public class Person {
 
-    protected final String name;
-    protected final String surname;
-    protected int age;
-    protected String address;
+    private String name;
+    private String surname;
+    private int age;
+    private String address;
 
-    public Person(String name, String surname, int age, String address) {
+
+    public Person(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
+        if (hasAge()) happyBirthday();
+    }
+
+    public Person(String name, String surname, int age) {
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.address = address;
     }
 
     public boolean hasAge() {
-        return age != 0;
+        if (age > 0) return true;
+        return false;
     }
 
     public boolean hasAddress() {
-        return address != null;
+        if (address != null) return true;
+        else return false;
+    }
+
+    public void happyBirthday() {
+        this.age++;
     }
 
     public String getName() {
@@ -29,14 +42,16 @@ public class Person {
     }
 
     public String getSurname() {
-        return surname;
+        return name;
     }
 
-    public int getAge() {
-        if (hasAge()) {
-            return age;
-        }
-        return 0;
+    public PersonBuilder newChildBuilder() {
+        PersonBuilder personBuilder = new PersonBuilder();
+        return personBuilder;
+    }
+
+    public OptionalInt getAge() {
+        return OptionalInt.of(this.age);
     }
 
     public String getAddress() {
@@ -47,21 +62,30 @@ public class Person {
         this.address = address;
     }
 
-    public void happyBirthday() {
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Person{");
+        stringBuilder.append("name='").append(getName()).append("'");
+        stringBuilder.append(", surname='").append(getSurname()).append("'");
         if (hasAge()) {
-            age += 1;
+            stringBuilder.append(", age='").append(getAge().getAsInt()).append("'");
         }
-    }
 
-    public PersonBuilder newChildBuilder() {
-        return new PersonBuilder()
-                .surname(getSurname())
-                .address(getAddress());
+        if (hasAddress()) {
+            stringBuilder.append(", address='").append(getAddress()).append("'");
+        }
+        stringBuilder.append("}");
+
+        return stringBuilder.toString();
     }
 
     @Override
-    public String toString() {
-        return surname + " " + name;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age && name.equals(person.name) && surname.equals(person.surname) && address.equals(person.address);
     }
 
     @Override
