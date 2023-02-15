@@ -3,26 +3,23 @@ package ru.netology;
 public class Main {
     public static void main(String[] args) {
         Person mom = new PersonBuilder()
-                .setName("Анна")
-                .setLastname("Вольф")
-                .setAge(31)
-                .setAddress("Сидней")
+                .name("Анна")
+                .surname("Вольф")
+                .age(31)
+                .address("Сидней")
                 .build();
         Person son = mom.newChildBuilder()
-                .setName("Антошка")
+                .name("Антошка")
                 .build();
-        System.out.println("У " + mom + " есть сын: " + son);
+        System.out.println("У " + mom + " есть сын, " + son);
 
         try {
-            // Не хватает обязательных полей
             new PersonBuilder().build();
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
-
         try {
-            // Возраст недопустимый
-            new PersonBuilder().setAge(-100).build();
+            new PersonBuilder().age(-100).build();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }

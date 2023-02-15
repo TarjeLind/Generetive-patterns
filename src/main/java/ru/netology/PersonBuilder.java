@@ -1,48 +1,39 @@
 package ru.netology;
 
 public class PersonBuilder {
-    private String name;
-    private String lastname;
-    private int age;
-    private String city;
 
-    public PersonBuilder() {
-        this.name = null;
-        this.lastname = null;
-        this.age = -1;
-        this.city = null;
-    }
+    protected String name;
+    protected String surname;
+    protected int age;
+    protected String address;
 
-    public PersonBuilder setName(String name) {
+    public PersonBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    public PersonBuilder setLastname(String lastname) {
-        this.lastname = lastname;
+    public PersonBuilder surname(String surname) {
+        this.surname = surname;
         return this;
     }
 
-    public PersonBuilder setAge(int age) {
+    public PersonBuilder age(int age) {
         if (age < 0) {
-            throw new IllegalArgumentException("Введен недопустимый возраст");
-        } else {
-            this.age = age;
-            return this;
+            throw new IllegalArgumentException("ОШИБКА! Необходимо указать правильный возраст!");
         }
+        this.age = age;
+        return this;
     }
 
-    public PersonBuilder setAddress(String city) {
-        this.city = city;
+    public PersonBuilder address(String address) {
+        this.address = address;
         return this;
     }
 
     public Person build() {
-        if ((name == null) || (lastname == null)) {
-            throw new IllegalStateException("Не хватает обязательных полей");
-        } else {
-            return new Person(name, lastname, age, city);
+        if (name == null || surname == null) {
+            throw new IllegalStateException("ОШИБКА! Укажите имя и фамилию!");
         }
+        return new Person(name, surname, age, address);
     }
-
 }

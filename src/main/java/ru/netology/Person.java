@@ -1,73 +1,71 @@
 package ru.netology;
 
-import java.util.OptionalInt;
+import java.util.Objects;
 
 public class Person {
-    private final String name;
-    private final String lastname;
-    private int age;
-    private String city;
 
-    public Person(String name, String lastname, int age, String city) {
+    protected final String name;
+    protected final String surname;
+    protected int age;
+    protected String address;
+
+    public Person(String name, String surname, int age, String address) {
         this.name = name;
-        this.lastname = lastname;
+        this.surname = surname;
         this.age = age;
-        this.city = city;
-    }
-
-    public void happyBirthday() {
-        if (hasAge()) {
-            this.age++;
-        }
+        this.address = address;
     }
 
     public boolean hasAge() {
-        return this.age >= 0;
+        return age != 0;
     }
 
     public boolean hasAddress() {
-        return this.city != null;
-    }
-
-    public void setAddress(String city) {
-        this.city = city;
+        return address != null;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getSurname() {
+        return surname;
     }
 
-    public OptionalInt getAge() {
-        return OptionalInt.empty();
+    public int getAge() {
+        if (hasAge()) {
+            return age;
+        }
+        return 0;
     }
 
-    public String getCity() {
-        return city;
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void happyBirthday() {
+        if (hasAge()) {
+            age += 1;
+        }
     }
 
     public PersonBuilder newChildBuilder() {
-        return new PersonBuilder().setLastname(getLastname()).setAddress(getCity());
+        return new PersonBuilder()
+                .surname(getSurname())
+                .address(getAddress());
     }
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(name);
-        str.append(" ");
-        str.append(lastname);
-        if (hasAge()) {
-            str.append(", возраст: ");
-            str.append(age);
-            str.append(" лет");
-        }
-        if (hasAddress()) {
-            str.append(", адрес: ");
-            str.append(city);
-        }
-        return str.toString();
+        return surname + " " + name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, age, address);
     }
 }
